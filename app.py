@@ -32,9 +32,19 @@ def index():
         # OCR
         texts = [extract_text_from_image(page) for page in pages]
 
-        # Crear PowerPoint
-        output_path = os.path.join(OUTPUT_DIR, pdf_file.filename.replace(".pdf", "_editable.pptx"))
-        create_presentation(pages, texts, output_path)
+        ## obtener formato de salida
+        output_format = request.form.get("output_format")
+
+        if output_format == "pptx":
+            output_path = os.path.join(OUTPUT_DIR, pdf_file.filename.replace(".pdf", "_editable.pptx"))
+            create_presentation(pages, texts, output_path)
+        elif output_format == "docx":
+            from modules.docx_builder import create_document
+            output_path = os.path.join(OUTPUT_DIR, pdf_file.filename.replace(".pdf", "_editable.docx"))
+            create_document(pages, texts, output_path)
+        else:
+            flash("Formato de salida no soportado")
+            return redirect(request.url)
 
         return send_file(output_path, as_attachment=True)
 

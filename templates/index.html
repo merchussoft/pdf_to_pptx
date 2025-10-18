@@ -10,8 +10,17 @@
     <form method="POST" enctype="multipart/form-data">
         <label for="pdf_file">Selecciona un PDF:</label>
         <input type="file" name="pdf_file" id="pdf_file" accept=".pdf" required>
+
+        <label for="output_format">Formato de salida:</label>
+        <select name="output_format" id="output_format" required>
+            <option value="pptx">PowerPoint</option>
+            <option value="docx">Word</option>
+        </select>
+
         <button type="submit">Convertir</button>
     </form>
+
+    
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul>
