@@ -39,9 +39,9 @@ def index():
             output_path = os.path.join(OUTPUT_DIR, pdf_file.filename.replace(".pdf", "_editable.pptx"))
             create_presentation(pages, texts, output_path)
         elif output_format == "docx":
-            from modules.docx_builder import create_document
+            from modules.docx_builder import create_docx
             output_path = os.path.join(OUTPUT_DIR, pdf_file.filename.replace(".pdf", "_editable.docx"))
-            create_document(pages, texts, output_path)
+            create_docx(pages, texts, output_path)
         else:
             flash("Formato de salida no soportado")
             return redirect(request.url)
