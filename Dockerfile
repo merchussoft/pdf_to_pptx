@@ -1,21 +1,25 @@
-# imagen base con python
+# Imagen base con Python
 FROM python:3.12-slim
 
-## Intalar Poppler (necesario para pdf2image)
-RUN apt-get update && apt-get dist-upgrade -y && apt-get update && \
-    apt-get install -y poppler-utils && \
-    rm -rf /vasr/lib/apt/lists/*
+# Instalar Poppler (para pdf2image) y Tesseract (para OCR)
+RUN apt-get update && apt-get install -y \
+    poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-spa \
+    && rm -rf /var/lib/apt/lists/*
 
 # Crear directorio de trabajo
 WORKDIR /app
 
-## Copiar requirements.txt y luego instalar dependencias
+# Copiar requirements y luego instalar dependencias
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-## Copiar el resto de la aplicacion
-
+# Copiar el resto de la aplicación
 COPY . .
 
-# Comando por defecto 
-CMD ["python", "main.py"]
+# Exponer el puerto de Flask
+EXPOSE 5000
+
+# Comando por defecto
+CMD ["python", "app.py"]
